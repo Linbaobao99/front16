@@ -193,7 +193,18 @@ export default {
   created() {
     this.getDataById();
   },
-  
+  /** 
+   * 商品详情页面的右侧列表,可以点击切换不同的商品进行商品预览
+   * 但是默认情况下当前页面切换到当前页面不会触发组件的重新渲染,为了解决这个问题,
+   * 我们可以监听$route对象的变化,因为切换商品后,$route.params.id变化了,我们监听它,
+   * 然后主动发起http请求,调用接口获取id的数据进行试图刷新
+   */
+  watch:{
+      $route(){
+          this.id = this.$route.params.id
+          this.getDataById();
+      }
+  }
 };
 </script>
 
