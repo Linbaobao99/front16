@@ -7,6 +7,8 @@ import router from './router'
 import 'normalize.css'
 //公共样式
 import './less/common.less'
+//引入css
+import './assets/css/style.css'
 //不是vue插件,导入之后只能在当前模块使用
 import axios from 'axios'
 import api, { domain } from './js/api.js'

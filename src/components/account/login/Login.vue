@@ -2,11 +2,11 @@
   <div class="login">
     <section>
       <el-form :model="ruleForm2" status-icon label-position="top" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="账号" prop="uname">
-          <el-input type="text" v-model="ruleForm2.uname" auto-complete="off"></el-input>
+        <el-form-item label="账号" prop="user_name">
+          <el-input type="text" v-model="ruleForm2.user_name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="upwd">
-          <el-input type="password" v-model="ruleForm2.upwd" auto-complete="off"></el-input>
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" v-model="ruleForm2.password" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm2')">登录</el-button>
@@ -22,12 +22,12 @@ export default {
   data() {
     return {
       ruleForm2: {
-        uname: "admin",
-        upwd: "123456"
+        user_name: "ivanyb",
+        password: "123"
       },
       rules2: {
-        uname: [{ required: true, message: "账号不能为空", trigger: "blur" }],
-        upwd: [
+        user_name: [{ required: true, message: "账号不能为空", trigger: "blur" }],
+        password: [
           {
             min: 3,
             max: 10,
@@ -45,7 +45,7 @@ export default {
         if (res.data.status == 0) {
           this.$alert("登录成功", "提示", {
             callback: () => {
-              this.$router.push({ path: this.$route.query.next || "/admin" });
+              this.$router.push({ path: this.$route.query.next || "/shop/goods/list" });
               localStorage.setItem("name", JSON.stringify(res.data.message));
             }
           });
