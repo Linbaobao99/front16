@@ -18,7 +18,33 @@
                         <div class="goods-box clearfix">
                             <!--商品图片-->
                             <div class="pic-box">
-                                <img src="" alt="">
+                                <div class="magnifier" id="magnifier1">
+                                    <div class="magnifier-container">
+                                        <div class="images-cover"></div>
+                                        <!--当前图片显示容器-->
+                                        <div class="move-view"></div>
+                                        <!--跟随鼠标移动的盒子-->
+                                    </div>
+                                    <div class="magnifier-assembly">
+                                        <div class="magnifier-btn">
+                                            <span class="magnifier-btn-left">&lt;</span>
+                                            <span class="magnifier-btn-right">&gt;</span>
+                                        </div>
+                                        <!--按钮组-->
+                                        <div class="magnifier-line">
+                                            <ul class="clearfix animation03">
+                                                <li v-for="item in top.imglist" :key="item.id">
+                                                    <div class="small-img">
+                                                        <img :src="item.original_path" />
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!--缩略图-->
+                                    </div>
+                                    <div class="magnifier-view"></div>
+                                    <!--经过放大的图片显示容器-->
+                                </div>
                             </div>
                             <!--/商品图片-->
 
@@ -70,86 +96,20 @@
                             <!--/商品信息-->
                         </div>
 
+                        <!-- 商品详情和评论 -->
                         <div id="goodsTabs" class="goods-tab bg-wrap">
-                            <!--选项卡-->
-                            <div id="tabHead" class="tab-head" style="position: static; top: 517px; width: 925px;">
-                                <ul>
-                                    <li>
-                                        <a class="selected" href="javascript:;">商品介绍</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" class="">商品评论</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!--/选项卡-->
-
-                            <!--选项内容-->
-                            <div class="tab-content entry" style="display:block;">
-                                内容
-                            </div>
-
-                            <div class="tab-content" style="display: block;">
-                                <!--网友评论-->
-                                <div class="comment-box">
-                                    <!--取得评论总数-->
-                                    <form id="commentForm" name="commentForm" class="form-box" url="/tools/submit_ajax.ashx?action=comment_add&amp;channel_id=2&amp;article_id=98">
-                                        <div class="avatar-box">
-                                            <i class="iconfont icon-user-full"></i>
-                                        </div>
-                                        <div class="conn-box">
-                                            <div class="editor">
-                                                <textarea id="txtContent" name="txtContent" sucmsg=" " datatype="*10-1000" nullmsg="请填写评论内容！"></textarea>
-                                                <span class="Validform_checktip"></span>
-                                            </div>
-                                            <div class="subcon">
-                                                <input id="btnSubmit" name="submit" type="submit" value="提交评论" class="submit">
-                                                <span class="Validform_checktip"></span>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <ul id="commentList" class="list-box">
-                                        <p style="margin:5px 0 15px 69px;line-height:42px;text-align:center;border:1px solid #f7f7f7;">暂无评论，快来抢沙发吧！</p>
-                                        <li>
-                                            <div class="avatar-box">
-                                                <i class="iconfont icon-user-full"></i>
-                                            </div>
-                                            <div class="inner-box">
-                                                <div class="info">
-                                                    <span>匿名用户</span>
-                                                    <span>2017/10/23 14:58:59</span>
-                                                </div>
-                                                <p>testtesttest</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="avatar-box">
-                                                <i class="iconfont icon-user-full"></i>
-                                            </div>
-                                            <div class="inner-box">
-                                                <div class="info">
-                                                    <span>匿名用户</span>
-                                                    <span>2017/10/23 14:59:36</span>
-                                                </div>
-                                                <p>很清晰调动单很清晰调动单</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <!--放置页码-->
-                                    <div class="page-box" style="margin:5px 0 0 62px">
-                                        <div id="pagination" class="digg">
-                                            <span class="disabled">« 上一页</span>
-                                            <span class="current">1</span>
-                                            <span class="disabled">下一页 »</span>
-                                        </div>
-                                    </div>
-                                    <!--/放置页码-->
-                                </div>
-
-                                <!--/网友评论-->
-                            </div>
+                            <el-tabs type="border-card">
+                                <el-tab-pane label="商品介绍">
+                                    <div v-html="top.goodsinfo.content"></div>
+                                </el-tab-pane>
+                                <el-tab-pane label="商品评论">
+                                    <!-- 评论  抽取为公共组件,需要一个id来获取默认的评论列表以及发表评论 -->
+                                    <app-comment :id="id"></app-comment>
+                                </el-tab-pane>
+                            </el-tabs>
 
                         </div>
+                        <!-- 商品详情和评论 -->
 
                     </div>
                     <!--/页面左边-->
@@ -164,46 +124,67 @@
 </template>
 
 <script>
-import Comside from './subcom/Comside.vue'
+// 导入放大镜插件
+import "@/lib/imgzoom/css/magnifier.css";
+import "@/lib/imgzoom/js/magnifier.js";
+import $ from "jquery";
+/* 公共侧边 */
+import Comside from "./subcom/Comside.vue";
+/* 评论 */
+import Comcomment from "./subcom/Comcomment.vue"
 
 export default {
-    components:{
-        appSide:Comside,
-    },
+  components: {
+    appSide: Comside,
+    appComment:Comcomment
+  },
   data() {
     return {
       id: this.$route.params.id,
-      num:1,
+      num: 1,
       top: {
-          goodsinfo:[],
-          imglist:[],
-          hotgoodslist:[]
+        goodsinfo: [],
+        imglist: [],
+        hotgoodslist: []
       }
     };
   },
   methods: {
     getDataById() {
-        this.$axios.get(this.$api.goodsDetail+this.id).then(res=>{
-            if(res.data.status==0){
-                this.top = res.data.message;
-            }
-        })
+      this.$axios.get(this.$api.goodsDetail + this.id).then(res => {
+        if (res.data.status == 0) {
+          this.top = res.data.message;
+        }
+      });
     }
   },
+  mounted() {},
   created() {
     this.getDataById();
   },
-  /** 
+  /**
    * 商品详情页面的右侧列表,可以点击切换不同的商品进行商品预览
    * 但是默认情况下当前页面切换到当前页面不会触发组件的重新渲染,为了解决这个问题,
    * 我们可以监听$route对象的变化,因为切换商品后,$route.params.id变化了,我们监听它,
    * 然后主动发起http请求,调用接口获取id的数据进行试图刷新
    */
-  watch:{
-      $route(){
-          this.id = this.$route.params.id
-          this.getDataById();
-      }
+  watch: {
+    $route() {
+      this.id = this.$route.params.id;
+      this.getDataById();
+    },
+    top() {
+      var magnifierConfig = {
+        magnifier: "#magnifier1", //最外层的大容器
+        width: 370, //承载容器宽
+        height: 370, //承载容器高
+        moveWidth: null, //如果设置了移动盒子的宽度，则不计算缩放比例
+        zoom: 5 //缩放比例
+      };
+      setTimeout(function() {
+        var _magnifier = $().imgzoon(magnifierConfig);
+      }, 80);
+    }
   }
 };
 </script>
