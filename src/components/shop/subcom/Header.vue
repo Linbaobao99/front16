@@ -16,7 +16,7 @@
                         <i class="iconfont icon-phone"></i>联系我们</a>
                     <router-link :to="{ name: 'shopcart' }">
                         <i class="iconfont icon-cart"></i>
-                        <span>购物车(100)</span>
+                        <span>购物车({{$store.getters.total}})</span>
                     </router-link>
                 </div>
             </div>
@@ -63,14 +63,6 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="search-box">
-                        <div class="input-box">
-                            <input id="keywords" name="keywords" type="text" onkeydown="if(event.keyCode==13){SiteSearch('/search.html', '#keywords');return false};" placeholder="输入关健字" x-webkit-speech="">
-                        </div>
-                        <a href="javascript:;" onclick="SiteSearch('/search.html', '#keywords');">
-                            <i class="iconfont icon-search"></i>
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -78,7 +70,8 @@
 </template>
 
 <script>
-export default {};
+export default {
+};
 </script>
 
 <style scoped>

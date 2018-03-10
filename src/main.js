@@ -9,6 +9,11 @@ import 'normalize.css'
 import './less/common.less'
 //引入css
 import './assets/css/style.css'
+//导入Vuex
+import Vuex from 'vuex'
+Vue.use(Vuex);
+//导入cart.js暴露的配置对象
+import storeCart from './store/cart.js'
 //不是vue插件,导入之后只能在当前模块使用
 import axios from 'axios'
 import api, { domain } from './js/api.js'
@@ -27,4 +32,5 @@ new Vue({
   el: '#app',
   router,
   render: createElement => createElement(App),
+  store: new Vuex.Store(storeCart)
 })

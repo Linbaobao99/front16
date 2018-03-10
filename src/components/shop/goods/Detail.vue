@@ -76,7 +76,7 @@
                                         <dt>购买数量</dt>
                                         <dd>
                                             <span class="stock-txt">
-                                                <el-input-number size="mini" v-model="num" :min=1></el-input-number>
+                                                <el-input-number size="mini" v-model="num" :min=0 :max="top.goodsinfo.stock_quantity"></el-input-number>
                                                 库存
                                                 <em id="commodityStockNum">{{top.goodsinfo.stock_quantity}}</em>件
                                             </span>
@@ -86,7 +86,7 @@
                                         <dd>
                                             <div class="btn-buy" id="buyButton">
                                                 <button class="buy">立即购买</button>
-                                                <button class="add">加入购物车</button>
+                                                <button class="add" @click="addCart">加入购物车</button>
                                             </div>
                                         </dd>
                                     </dl>
@@ -131,17 +131,17 @@ import $ from "jquery";
 /* 公共侧边 */
 import Comside from "./subcom/Comside.vue";
 /* 评论 */
-import Comcomment from "./subcom/Comcomment.vue"
+import Comcomment from "./subcom/Comcomment.vue";
 
 export default {
   components: {
     appSide: Comside,
-    appComment:Comcomment
+    appComment: Comcomment
   },
   data() {
     return {
       id: this.$route.params.id,
-      num: 1,
+      num: 0,
       top: {
         goodsinfo: [],
         imglist: [],
@@ -156,9 +156,13 @@ export default {
           this.top = res.data.message;
         }
       });
+    },
+    addCart() {
+      let newnum = this.num + (this.$store.state.cart[this.id] || 0);//当前的数量加上以前的数量
+      this.$store.commit("modify", { id: this.id, num: newnum });
+      this.num = 0; //加完之后重置计数框
     }
   },
-  mounted() {},
   created() {
     this.getDataById();
   },

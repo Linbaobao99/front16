@@ -9,7 +9,7 @@ import Login from '../components/account/login/Login.vue'
 import Shop from '../components/shop/Shop.vue'
 import GoodsList from '../components/shop/goods/List.vue'
 import GoodsDetail from '../components/shop/goods/Detail.vue'
-import OrderAddress from '../components/shop/order/Address.vue'
+import OrderSite from '../components/shop/order/Site.vue'
 import OrderComplete from '../components/shop/order/Complete.vue'
 import OrderPay from '../components/shop/order/Pay.vue'
 import Shopcart from '../components/shop/shopcart/Shopcart.vue'
@@ -22,14 +22,14 @@ let goods = [
 
 //order路由配置
 let order = [
-  { name: 'orderAddress', path: 'order/address/:id', component: OrderAddress },
+  { name: 'orderSite', path: 'order/site/:ids', component: OrderSite },
   { name: 'orderComplete', path: 'order/complete', component: OrderComplete },
   { name: 'orderPay', path: 'order/pay/:id', component: OrderPay }
 ]
 
 //shopcart路由配置
 let shopcart = [
-  { name: 'Shopcart', path: 'shopcart', component: Shopcart }
+  { name: 'shopcart', path: 'shopcart', component: Shopcart }
 ]
 
 //使用组件
